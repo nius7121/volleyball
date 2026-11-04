@@ -34,7 +34,7 @@ export const PAPS_BENCHMARK = {
       { grade: 1, min: 60, label: '1등급 (60회 이상)' },
       { grade: 2, min: 50, label: '2등급 (50~59회)' },
       { grade: 3, min: 40, label: '3등급 (40~49회)' },
-      { grade: 4, min: 30, label: '3등급/4등급 (30~39회)' },
+      { grade: 4, min: 30, label: '4등급 (30~39회)' },
       { grade: 5, min: 0,  label: '5등급 (29회 이하)' }
     ]
   },
@@ -77,7 +77,7 @@ export const PAPS_BENCHMARK = {
   }
 };
 
-// 등급 점수화 (1등급: 100점, 2등급: 85점, 3등급: 70점, 4등급: 55점, 5등급: 40점)
+// 등급 점수화 (1등급: 96점, 2등급: 84점, 3등급: 72점, 4등급: 60점, 5등급: 48점)
 export const gradeToScore = (grade) => {
   switch (grade) {
     case 1: return 96;
@@ -131,17 +131,12 @@ export const calculateVolleyballStats = (paps, height = 175, position = 'WS') =>
   } else if (position === 'MB') {
     block = Math.min(99, block + 7);
     spike = Math.min(99, spike + 3);
-  } else if (position === 'L') {
-    receive = Math.min(99, receive + 9);
-    speed = Math.min(99, speed + 5);
-    spike = Math.max(30, spike - 10);
-    block = Math.max(30, block - 15);
-  } else if (position === 'WS' || position === 'OH') {
-    spike = Math.min(99, spike + 5);
-    receive = Math.min(99, receive + 3);
-  } else if (position === 'OP') {
-    spike = Math.min(99, spike + 8);
-    block = Math.min(99, block + 3);
+  } else if (position === 'DS') {
+    receive = Math.min(99, receive + 8);
+    speed = Math.min(99, speed + 3);
+  } else if (position === 'WS') {
+    spike = Math.min(99, spike + 6);
+    receive = Math.min(99, receive + 2);
   }
 
   // 종합 능력치 (OVR)
@@ -158,11 +153,27 @@ export const calculateVolleyballStats = (paps, height = 175, position = 'WS') =>
   };
 };
 
-export const getTier = (score) => {
-  if (score >= 90) return { label: 'S (전국구 에이스)', color: 'text-amber-400 bg-amber-950/60 border-amber-500' };
-  if (score >= 82) return { label: 'A (현 대회 최상위)', color: 'text-orange-400 bg-orange-950/60 border-orange-500' };
-  if (score >= 74) return { label: 'B (주전급 실력자)', color: 'text-blue-400 bg-blue-950/60 border-blue-500' };
-  if (score >= 65) return { label: 'C (기본기 탄탄)', color: 'text-emerald-400 bg-emerald-950/60 border-emerald-500' };
-  return { label: 'D (성장형 루키)', color: 'text-gray-400 bg-gray-900 border-gray-600' };
+export const PAPS_ITEMS = [
+  { key: 'shuttleRun', gradeKey: 'shuttleRunGrade', name: '왕복오래달리기', unit: '회', helps: '체력, 수비 범위' },
+  { key: 'standingJump', gradeKey: 'standingJumpGrade', name: '제자리멀리뛰기', unit: 'cm', helps: '스파이크, 블로킹' },
+  { key: 'gripStrength', gradeKey: 'gripStrengthGrade', name: '악력', unit: 'kg', helps: '스파이크, 서브' },
+  { key: 'sitAndReach', gradeKey: 'sitAndReachGrade', name: '앉아윗몸앞으로굽히기', unit: 'cm', helps: '리시브, 토스' },
+  { key: 'sitUps', gradeKey: 'sitUpsGrade', name: '윗몸일으키기', unit: '회', helps: '서브, 토스' },
+];
+
+// 측정값을 등급으로만 바꾼다. 측정값 자체는 서버로 보내지 않는다.
+export const gradeFromMeasure = (gender, itemKey, value) => {
+  const table = PAPS_BENCHMARK[gender]?.[itemKey];
+  const row = table?.find((item) => value >= item.min);
+  return row ? row.grade : 5;
+};
+
+export const STAT_LABELS = {
+  spike: '스파이크',
+  block: '블로킹',
+  serve: '서브',
+  receive: '리시브',
+  toss: '토스',
+  speed: '체력',
 };
 

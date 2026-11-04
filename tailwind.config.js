@@ -1,41 +1,24 @@
 /** @type {import('tailwindcss').Config} */
 export default {
-  content: [
-    "./index.html",
-    "./src/**/*.{js,ts,jsx,tsx}",
-  ],
+  content: ['./index.html', './src/**/*.{js,jsx}'],
   theme: {
     extend: {
       colors: {
-        haikyu: {
-          orange: '#FF5722',
-          orangeDark: '#E64A19',
-          orangeLight: '#FF8A65',
-          black: '#121316',
-          dark: '#1c1e24',
-          gray: '#2c2f38',
-          lightGray: '#434753',
-          yellow: '#FFD600',
-          nekomaRed: '#D32F2F',
-          aobaMint: '#00897B',
-          courtWood: '#D7A762',
-          courtWoodDark: '#B88241',
-          courtBlue: '#1565C0',
-          courtOrange: '#D84315',
-        }
+        ink: '#16161A',
+        paper: '#FBF8F0',
+        line: '#D9D3C4',
+        muted: '#5E5B52',
+        teamA: { DEFAULT: '#E9540F', soft: '#FDE7DA' },
+        teamB: { DEFAULT: '#1A5DBF', soft: '#DFEAFA' },
+        wood: { DEFAULT: '#EFCF9B', dark: '#DDB273' },
+        alert: '#C8241B',
+        ok: '#14783E',
       },
       fontFamily: {
-        impact: ['Impact', 'Arial Black', 'sans-serif'],
-        comic: ['Bangers', 'Changa One', 'Pretendard', 'sans-serif'],
+        display: ['"Black Han Sans"', '"Noto Sans KR"', 'sans-serif'],
+        body: ['"Noto Sans KR"', 'system-ui', 'sans-serif'],
       },
-      boxShadow: {
-        'haikyu': '4px 4px 0px 0px rgba(0,0,0,1)',
-        'haikyu-lg': '6px 6px 0px 0px rgba(0,0,0,1)',
-        'haikyu-orange': '4px 4px 0px 0px #FF5722',
-        'haikyu-yellow': '4px 4px 0px 0px #FFD600',
-      }
     },
   },
   plugins: [],
-}
-
+};

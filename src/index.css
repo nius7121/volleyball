@@ -3,120 +3,158 @@
 @tailwind utilities;
 
 @layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
   body {
-    background-color: #0d0f12;
-    color: #f1f3f5;
-    font-family: 'Noto Sans KR', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: theme('colors.paper');
+    color: theme('colors.ink');
+    font-family: theme('fontFamily.body');
+    overflow-x: hidden;
+  }
+  h1, h2, h3 {
+    font-family: theme('fontFamily.display');
+    font-weight: 400;
+    letter-spacing: 0.01em;
+  }
+  :focus-visible {
+    outline: 3px solid theme('colors.teamB.DEFAULT');
+    outline-offset: 2px;
+  }
+  input, select {
+    border: 2px solid theme('colors.ink');
+    background: #fff;
+    padding: 0.55rem 0.7rem;
+    font-weight: 500;
+    width: 100%;
+    min-height: 44px;
+    border-radius: 0;
   }
 }
 
-/* Haikyu Anime Manga Style Effects */
-.haikyu-title {
-  font-family: 'Black Han Sans', 'Impact', sans-serif;
-  letter-spacing: 0.05em;
-  text-shadow: 3px 3px 0px #000, -1px -1px 0px #000, 1px -1px 0px #000, -1px 1px 0px #000;
+@layer components {
+  .sheet {
+    background: #fff;
+    border: 2px solid theme('colors.ink');
+  }
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
+    min-height: 44px;
+    padding: 0.5rem 1rem;
+    border: 2px solid theme('colors.ink');
+    background: #fff;
+    font-weight: 700;
+    transition: background-color 0.12s, transform 0.08s;
+  }
+  .btn:hover:not(:disabled) {
+    background: #F1ECDF;
+  }
+  .btn:active:not(:disabled) {
+    transform: translateY(1px);
+  }
+  .btn:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+  }
+  .btn-main {
+    background: theme('colors.ink');
+    color: #fff;
+  }
+  .btn-main:hover:not(:disabled) {
+    background: #33333A;
+  }
+  .btn-a {
+    background: theme('colors.teamA.DEFAULT');
+    color: #fff;
+  }
+  .btn-a:hover:not(:disabled) {
+    background: #C94608;
+  }
+  .btn-b {
+    background: theme('colors.teamB.DEFAULT');
+    color: #fff;
+  }
+  .btn-b:hover:not(:disabled) {
+    background: #154CA0;
+  }
+  .btn-small {
+    min-height: 34px;
+    padding: 0.2rem 0.55rem;
+    font-size: 0.8rem;
+  }
+  .cut-title {
+    display: inline-block;
+    background: theme('colors.ink');
+    color: #fff;
+    padding: 0.25rem 1.6rem 0.25rem 0.8rem;
+    clip-path: polygon(0 0, 100% 0, calc(100% - 0.8rem) 100%, 0 100%);
+  }
 }
 
-.haikyu-slant {
-  transform: skewX(-8deg);
+/* 스크린톤 점무늬 */
+.tone {
+  background-image: radial-gradient(rgba(22, 22, 26, 0.22) 1.3px, transparent 1.4px);
+  background-size: 8px 8px;
 }
 
-.haikyu-slant-reverse {
-  transform: skewX(8deg);
+/* 코트 바닥 나무 결 */
+.court-floor {
+  background-color: theme('colors.wood.DEFAULT');
+  background-image: repeating-linear-gradient(90deg, rgba(138, 91, 38, 0.13) 0 1px, transparent 1px 58px),
+    repeating-linear-gradient(0deg, rgba(138, 91, 38, 0.08) 0 1px, transparent 1px 22px);
 }
 
-/* Speed Lines Background Pattern */
-.bg-speed-lines {
-  background-image: repeating-conic-gradient(
-    from 0deg,
-    rgba(255, 255, 255, 0.04) 0deg 4deg,
-    transparent 4deg 12deg
-  );
+/* 만화 집중선: 중앙으로 모이는 검은 선 */
+.focus-lines {
+  background: repeating-conic-gradient(from 0deg at 50% 50%, #16161a 0deg 0.9deg, transparent 0.9deg 3.1deg, #16161a 3.1deg 3.5deg, transparent 3.5deg 7deg);
+  -webkit-mask-image: radial-gradient(ellipse at center, transparent 34%, #000 72%);
+  mask-image: radial-gradient(ellipse at center, transparent 34%, #000 72%);
 }
 
-/* Halftone Comic Dot Pattern */
-.bg-comic-dots {
-  background-image: radial-gradient(rgba(255, 255, 255, 0.12) 1.5px, transparent 1.5px);
-  background-size: 16px 16px;
+/* 컷인 등장: 크게 내려찍듯 들어온다 */
+@keyframes slam-in {
+  0% { transform: scale(1.5) rotate(-3deg); opacity: 0; }
+  35% { transform: scale(0.97) rotate(0.5deg); opacity: 1; }
+  55% { transform: scale(1.015) rotate(0deg); }
+  100% { transform: scale(1) rotate(0deg); }
+}
+.anim-slam {
+  animation: slam-in 0.32s cubic-bezier(0.2, 0.9, 0.3, 1) both;
 }
 
-/* Comic Action Bubble */
-.comic-bubble {
-  position: relative;
-  background: #ffffff;
-  color: #121212;
-  border: 3px solid #000000;
-  border-radius: 12px;
-  font-weight: 800;
-  box-shadow: 4px 4px 0px #000;
+@keyframes court-shake {
+  0%, 100% { transform: translate(0, 0); }
+  20% { transform: translate(-5px, 3px); }
+  45% { transform: translate(5px, -3px); }
+  70% { transform: translate(-3px, 2px); }
+}
+.anim-shake {
+  animation: court-shake 0.3s linear both;
 }
 
-.comic-bubble::after {
-  content: '';
-  position: absolute;
-  bottom: -12px;
-  left: 24px;
-  border-width: 12px 10px 0;
-  border-style: solid;
-  border-color: #ffffff transparent;
-  display: block;
-  width: 0;
+@keyframes burst {
+  0% { transform: translate(-50%, -50%) scale(0.2) rotate(-20deg); opacity: 1; }
+  60% { transform: translate(-50%, -50%) scale(1.1) rotate(4deg); opacity: 1; }
+  100% { transform: translate(-50%, -50%) scale(1.25) rotate(8deg); opacity: 0; }
+}
+.anim-burst {
+  animation: burst 0.42s ease-out both;
 }
 
-.comic-bubble-border::before {
-  content: '';
-  position: absolute;
-  bottom: -16px;
-  left: 22px;
-  border-width: 15px 12px 0;
-  border-style: solid;
-  border-color: #000000 transparent;
-  display: block;
-  width: 0;
+@keyframes pop-say {
+  0% { transform: translate(-50%, -30%) scale(0.6); opacity: 0; }
+  30% { transform: translate(-50%, -60%) scale(1.08); opacity: 1; }
+  100% { transform: translate(-50%, -70%) scale(1); opacity: 1; }
+}
+.anim-say {
+  animation: pop-say 0.25s ease-out both;
 }
 
-/* Custom Scrollbar */
-::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+@media (prefers-reduced-motion: reduce) {
+  .anim-slam, .anim-shake, .anim-say, .anim-burst {
+    animation-duration: 0.01s;
+  }
 }
-::-webkit-scrollbar-track {
-  background: #14171d;
-}
-::-webkit-scrollbar-thumb {
-  background: #ff5722;
-  border-radius: 4px;
-}
-::-webkit-scrollbar-thumb:hover {
-  background: #ff7043;
-}
-
-/* Impact Screen Shake */
-@keyframes shake {
-  0% { transform: translate(1px, 1px) rotate(0deg); }
-  10% { transform: translate(-1px, -2px) rotate(-1deg); }
-  20% { transform: translate(-3px, 0px) rotate(1deg); }
-  30% { transform: translate(3px, 2px) rotate(0deg); }
-  40% { transform: translate(1px, -1px) rotate(1deg); }
-  50% { transform: translate(-1px, 2px) rotate(-1deg); }
-  60% { transform: translate(-3px, 1px) rotate(0deg); }
-  70% { transform: translate(3px, 1px) rotate(-1deg); }
-  80% { transform: translate(-1px, -1px) rotate(1deg); }
-  90% { transform: translate(1px, 2px) rotate(0deg); }
-  100% { transform: translate(1px, -2px) rotate(-1deg); }
-}
-
-.animate-impact-shake {
-  animation: shake 0.35s cubic-bezier(.36,.07,.19,.97) both;
-}
-
-@keyframes flash-burst {
-  0% { opacity: 0; transform: scale(0.6); }
-  50% { opacity: 1; transform: scale(1.05); }
-  100% { opacity: 0; transform: scale(1.3); }
-}
-
-.animate-flash-burst {
-  animation: flash-burst 0.5s ease-out forwards;
-}
-
